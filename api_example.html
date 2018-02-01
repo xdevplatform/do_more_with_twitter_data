@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Enterprise setup &#8212; Learning More With Twitter Data 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Twitter Data Science</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://github.com/twitterdev/">Github</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Enterprise setup</a></li>
+<li><a class="reference internal" href="#premium-setup">Premium Setup</a></li>
+<li><a class="reference internal" href="#fast-way">Fast Way</a></li>
+<li><a class="reference internal" href="#working-with-the-resultstream">Working with the ResultStream</a></li>
+<li><a class="reference internal" href="#counts-endpoint">Counts Endpoint</a></li>
+<li><a class="reference internal" href="#dated-searches-full-archive-search">Dated searches / Full Archive Search</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <p id="api-example">Working with the API within a Python program is straightforward both for
+Premium and Enterprise clients.</p>
+<p>We&#8217;ll assume that credentials are in the default location,
+<code class="docutils literal"><span class="pre">~/.twitter_keys.yaml</span></code>.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">ResultStream</span><span class="p">,</span> <span class="n">gen_rule_payload</span><span class="p">,</span> <span class="n">load_credentials</span>
+</pre></div>
+</div>
+<div class="section" id="enterprise-setup">
+<h1>Enterprise setup<a class="headerlink" href="#enterprise-setup" title="Permalink to this headline">¶</a></h1>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">enterprise_search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="s2">&quot;~/.twitter_keys.yaml&quot;</span><span class="p">,</span>
+                                          <span class="n">yaml_key</span><span class="o">=</span><span class="s2">&quot;search_tweets_enterprise&quot;</span><span class="p">,</span>
+                                          <span class="n">env_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="premium-setup">
+<h1>Premium Setup<a class="headerlink" href="#premium-setup" title="Permalink to this headline">¶</a></h1>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">premium_search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="s2">&quot;~/.twitter_keys.yaml&quot;</span><span class="p">,</span>
+                                       <span class="n">yaml_key</span><span class="o">=</span><span class="s2">&quot;search_tweets_premium&quot;</span><span class="p">,</span>
+                                       <span class="n">env_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is a function that formats search API rules into valid json
+queries called <code class="docutils literal"><span class="pre">gen_rule_payload</span></code>. It has sensible defaults, such as
+pulling more Tweets per call than the default 100 (but note that a
+sandbox environment can only have a max of 100 here, so if you get
+errors, please check this) not including dates, and defaulting to hourly
+counts when using the counts api. Discussing the finer points of
+generating search rules is out of scope for these examples; I encourage
+you to see the docs to learn the nuances within, but for now let&#8217;s see
+what a rule looks like.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="o">=</span> <span class="n">gen_rule_payload</span><span class="p">(</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span> <span class="n">results_per_call</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># testing with a sandbox account</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span><span class="s2">&quot;maxResults&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This rule will match tweets that have the text <code class="docutils literal"><span class="pre">beyonce</span></code> in them.</p>
+<p>From this point, there are two ways to interact with the API. There is a
+quick method to collect smaller amounts of Tweets to memory that
+requires less thought and knowledge, and interaction with the
+<code class="docutils literal"><span class="pre">ResultStream</span></code> object which will be introduced later.</p>
+</div>
+<div class="section" id="fast-way">
+<h1>Fast Way<a class="headerlink" href="#fast-way" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ll use the <code class="docutils literal"><span class="pre">search_args</span></code> variable to power the configuration point
+for the API. The object also takes a valid PowerTrack rule and has
+options to cutoff search when hitting limits on both number of Tweets
+and API calls.</p>
+<p>We&#8217;ll be using the <code class="docutils literal"><span class="pre">collect_results</span></code> function, which has three
+parameters.</p>
+<ul class="simple">
+<li>rule: a valid PowerTrack rule, referenced earlier</li>
+<li>max_results: as the API handles pagination, it will stop collecting
+when we get to this number</li>
+<li>result_stream_args: configuration args that we&#8217;ve already
+specified.</li>
+</ul>
+<p>For the remaining examples, please change the args to either premium or
+enterprise depending on your usage.</p>
+<p>Let&#8217;s see how it goes:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">collect_results</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">tweets</span> <span class="o">=</span> <span class="n">collect_results</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span>
+                         <span class="n">max_results</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                         <span class="n">result_stream_args</span><span class="o">=</span><span class="n">enterprise_search_args</span><span class="p">)</span> <span class="c1"># change this if you need to</span>
+</pre></div>
+</div>
+<p>By default, Tweet payloads are lazily parsed into a <code class="docutils literal"><span class="pre">Tweet</span></code>
+<a class="reference external" href="https://twitterdev.github.io/tweet_parser/">object</a>. An overwhelming
+number of Tweet attributes are made available directly, as such:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">all_text</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Jay-Z &amp;amp; Beyoncé sat across from us at dinner tonight and, at one point, I made eye contact with Beyoncé. My limbs turned to jello and I can no longer form a coherent sentence. I have seen the eyes of the lord.
+
+Beyoncé and it isn&#39;t close. https://t.co/UdOU9oUtuW
+
+As you could guess.. Signs by Beyoncé will always be my shit.
+
+When Beyoncé adopts a dog 🙌🏾 https://t.co/U571HyLG4F
+
+Hold up, you can&#39;t just do that to Beyoncé
+https://t.co/3p14DocGqA
+
+Why y&#39;all keep using Rihanna and Beyoncé gifs to promote the show when y&#39;all let Bey lose the same award she deserved 3 times and let Rihanna leave with nothing but the clothes on her back? https://t.co/w38QpH0wma
+
+30) anybody tell you that you look like Beyoncé https://t.co/Vo4Z7bfSCi
+
+Mi Beyoncé favorita https://t.co/f9Jp600l2B
+Beyoncé necesita ver esto. Que diosa @TiniStoessel 🔥🔥🔥 https://t.co/gadVJbehQZ
+
+Joanne Pearce Is now playing IF I WAS A BOY - BEYONCE.mp3 by !
+
+I&#39;m trynna see beyoncé&#39;s finsta before I die
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">created_at_datetime</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">50</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">49</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">44</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">42</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">42</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">42</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">40</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">38</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">37</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">17</span> <span class="mi">00</span><span class="p">:</span><span class="mi">08</span><span class="p">:</span><span class="mi">37</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">Android</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+<span class="n">Airtime</span> <span class="n">Pro</span>
+<span class="n">Twitter</span> <span class="k">for</span> <span class="n">iPhone</span>
+</pre></div>
+</div>
+<p>Voila, we have some Tweets. For interactive environments and other cases
+where you don&#8217;t care about collecting your data in a single load or
+don&#8217;t need to operate on the stream of Tweets or counts directly, I
+recommend using this convenience function.</p>
+</div>
+<div class="section" id="working-with-the-resultstream">
+<h1>Working with the ResultStream<a class="headerlink" href="#working-with-the-resultstream" title="Permalink to this headline">¶</a></h1>
+<p>The ResultStream object will be powered by the <code class="docutils literal"><span class="pre">search_args</span></code>, and
+takes the rules and other configuration parameters, including a hard
+stop on number of pages to limit your API call usage.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">rs</span> <span class="o">=</span> <span class="n">ResultStream</span><span class="p">(</span><span class="n">rule_payload</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
+                  <span class="n">max_results</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                  <span class="n">max_pages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">premium_search_args</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ResultStream</span><span class="p">:</span>
+    <span class="p">{</span>
+    <span class="s2">&quot;username&quot;</span><span class="p">:</span><span class="n">null</span><span class="p">,</span>
+    <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span><span class="s2">&quot;https:\/\/api.twitter.com\/1.1\/tweets\/search\/30day\/dev.json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rule_payload&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;maxResults&quot;</span><span class="p">:</span><span class="mi">100</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;tweetify&quot;</span><span class="p">:</span><span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;max_results&quot;</span><span class="p">:</span><span class="mi">500</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There is a function, <code class="docutils literal"><span class="pre">.stream</span></code>, that seamlessly handles requests and
+pagination for a given query. It returns a generator, and to grab our
+500 Tweets that mention <code class="docutils literal"><span class="pre">beyonce</span></code> we can do this:</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">tweets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">stream</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Tweets are lazily parsed using our <a class="reference external" href="https://twitterdev.github.io/tweet_parser/">Tweet
+Parser</a>, so tweet data is
+very easily extractable.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="c1"># using unidecode to prevent emoji/accents printing</span>
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">all_text</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gente socorro kkkkkkkkkk BEYONCE https://t.co/kJ9zubvKuf
+Jay-Z &amp;amp; Beyoncé sat across from us at dinner tonight and, at one point, I made eye contact with Beyoncé. My limbs turned to jello and I can no longer form a coherent sentence. I have seen the eyes of the lord.
+Beyoncé and it isn&#39;t close. https://t.co/UdOU9oUtuW
+As you could guess.. Signs by Beyoncé will always be my shit.
+When Beyoncé adopts a dog 🙌🏾 https://t.co/U571HyLG4F
+Hold up, you can&#39;t just do that to Beyoncé
+https://t.co/3p14DocGqA
+Why y&#39;all keep using Rihanna and Beyoncé gifs to promote the show when y&#39;all let Bey lose the same award she deserved 3 times and let Rihanna leave with nothing but the clothes on her back? https://t.co/w38QpH0wma
+30) anybody tell you that you look like Beyoncé https://t.co/Vo4Z7bfSCi
+Mi Beyoncé favorita https://t.co/f9Jp600l2B
+Beyoncé necesita ver esto. Que diosa @TiniStoessel 🔥🔥🔥 https://t.co/gadVJbehQZ
+Joanne Pearce Is now playing IF I WAS A BOY - BEYONCE.mp3 by !
+</pre></div>
+</div>
+</div>
+<div class="section" id="counts-endpoint">
+<h1>Counts Endpoint<a class="headerlink" href="#counts-endpoint" title="Permalink to this headline">¶</a></h1>
+<p>We can also use the Search API Counts endpoint to get counts of Tweets
+that match our rule. Each request will return up to <em>30</em> results, and
+each count request can be done on a minutely, hourly, or daily basis.
+The underlying <code class="docutils literal"><span class="pre">ResultStream</span></code> object will handle converting your
+endpoint to the count endpoint, and you have to specify the
+<code class="docutils literal"><span class="pre">count_bucket</span></code> argument when making a rule to use it.</p>
+<p>The process is very similar to grabbing Tweets, but has some minor
+differences.</p>
+<p><em>Caveat - premium sandbox environments do NOT have access to the Search
+API counts endpoint.</em></p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">count_rule</span> <span class="o">=</span> <span class="n">gen_rule_payload</span><span class="p">(</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span> <span class="n">count_bucket</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">)</span>
+
+<span class="n">counts</span> <span class="o">=</span> <span class="n">collect_results</span><span class="p">(</span><span class="n">count_rule</span><span class="p">,</span> <span class="n">result_stream_args</span><span class="o">=</span><span class="n">enterprise_search_args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Our results are pretty straightforward and can be rapidly used.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">counts</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">366</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801170000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">44580</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801160000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">61932</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801150000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">59678</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801140000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">44014</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801130000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">46607</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801120000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">41523</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801110000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">47056</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801100000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">65506</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801090000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">95251</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801080000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">162883</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801070000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">106344</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801060000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">93542</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801050000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">110415</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801040000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">127523</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801030000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">131952</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801020000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">176157</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201801010000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">57229</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712310000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">72277</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712300000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">72051</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712290000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">76371</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712280000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">61578</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712270000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">55118</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712260000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">59115</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712250000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">106219</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712240000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">114732</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712230000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">73327</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712220000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">89171</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712210000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">192381</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712200000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">85554</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712190000&#39;</span><span class="p">},</span>
+ <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">57829</span><span class="p">,</span> <span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201712180000&#39;</span><span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dated-searches-full-archive-search">
+<h1>Dated searches / Full Archive Search<a class="headerlink" href="#dated-searches-full-archive-search" title="Permalink to this headline">¶</a></h1>
+<p>Let&#8217;s make a new rule and pass it dates this time.</p>
+<p><code class="docutils literal"><span class="pre">gen_rule_payload</span></code> takes dates of the forms <code class="docutils literal"><span class="pre">YYYY-mm-DD</span></code> and
+<code class="docutils literal"><span class="pre">YYYYmmDD</span></code>.</p>
+<p><strong>Note that this will only work with the full archive search option</strong>,
+which is available to my account only via the enterprise options. Full
+archive search will likely require a different endpoint or access
+method; please see your developer console for details.</p>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="o">=</span> <span class="n">gen_rule_payload</span><span class="p">(</span><span class="s2">&quot;from:jack&quot;</span><span class="p">,</span>
+                        <span class="n">from_date</span><span class="o">=</span><span class="s2">&quot;2017-09-01&quot;</span><span class="p">,</span>
+                        <span class="n">to_date</span><span class="o">=</span><span class="s2">&quot;2017-10-30&quot;</span><span class="p">,</span>
+                        <span class="n">results_per_call</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;from:jack&quot;</span><span class="p">,</span><span class="s2">&quot;maxResults&quot;</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="s2">&quot;toDate&quot;</span><span class="p">:</span><span class="s2">&quot;201710300000&quot;</span><span class="p">,</span><span class="s2">&quot;fromDate&quot;</span><span class="p">:</span><span class="s2">&quot;201709010000&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">tweets</span> <span class="o">=</span> <span class="n">collect_results</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">result_stream_args</span><span class="o">=</span><span class="n">enterprise_search_args</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">all_text</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>More clarity on our private information policy and enforcement. Working to build as much direct context into the product too https://t.co/IrwBexPrBA
+To provide more clarity on our private information policy, we’ve added specific examples of what is/is not a violation and insight into what we need to remove this type of content from the service. https://t.co/NGx5hh2tTQ
+Launching violent groups and hateful images/symbols policy on November 22nd https://t.co/NaWuBPxyO5
+We will now launch our policies on violent groups and hateful imagery and hate symbols on Nov 22. During the development process, we received valuable feedback that we’re implementing before these are published and enforced. See more on our policy development process here 👇 https://t.co/wx3EeH39BI
+@WillStick @lizkelley Happy birthday Liz!
+Off-boarding advertising from all accounts owned by Russia Today (RT) and Sputnik.
+
+We’re donating all projected earnings ($1.9mm) to support external research into the use of Twitter in elections, including use of malicious automation and misinformation. https://t.co/zIxfqqXCZr
+@TMFJMo @anthonynoto Thank you
+@gasca @stratechery @Lefsetz letter
+@gasca @stratechery Bridgewater’s Daily Observations
+Yup!!!! ❤️❤️❤️❤️ #davechappelle https://t.co/ybSGNrQpYF
+@ndimichino Sometimes
+Setting up at @CampFlogGnaw https://t.co/nVq8QjkKsf
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="o">=</span> <span class="n">gen_rule_payload</span><span class="p">(</span><span class="s2">&quot;from:jack&quot;</span><span class="p">,</span>
+                        <span class="n">from_date</span><span class="o">=</span><span class="s2">&quot;2017-09-20&quot;</span><span class="p">,</span>
+                        <span class="n">to_date</span><span class="o">=</span><span class="s2">&quot;2017-10-30&quot;</span><span class="p">,</span>
+                        <span class="n">count_bucket</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">,</span>
+                        <span class="n">results_per_call</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;from:jack&quot;</span><span class="p">,</span><span class="s2">&quot;toDate&quot;</span><span class="p">:</span><span class="s2">&quot;201710300000&quot;</span><span class="p">,</span><span class="s2">&quot;fromDate&quot;</span><span class="p">:</span><span class="s2">&quot;201709200000&quot;</span><span class="p">,</span><span class="s2">&quot;bucket&quot;</span><span class="p">:</span><span class="s2">&quot;day&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">collect_results</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">result_stream_args</span><span class="o">=</span><span class="n">enterprise_search_args</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code ipython3 highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">];</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710290000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710280000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710270000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710260000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710250000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710240000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710230000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710220000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710210000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710200000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710190000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710180000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710170000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710160000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710150000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710140000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710130000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710120000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710110000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710100000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710090000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710080000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710070000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710060000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710050000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710040000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710030000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710020000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201710010000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709300000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709290000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709280000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709270000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">41</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709260000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709250000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709240000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709230000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709220000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709210000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">&#39;timePeriod&#39;</span><span class="p">:</span> <span class="s1">&#39;201709200000&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Twitter stuff.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
