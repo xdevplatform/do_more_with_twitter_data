@@ -229,11 +229,11 @@ Enable typographer option to see result.
 
             (R) (tm) (TM) (p) (P) +-
 
-test.. test… test….. test?….. test!….
+test.. test... test..... test?..... test!....
 
-!!!!!! ???? ,, – —
+!!!!!! ???? ,, -- ---
 
-“Smartypants, double quotes” and ‘single quotes’
+"Smartypants, double quotes" and 'single quotes'
 
 Emphasis
 --------
