@@ -26,9 +26,11 @@ git checkout $BRANCH_NAME docs
 # need to do this step because the readme will be overwritten
 mv docs/* .
 make clean
+make jupyter
 make html
 mv -fv build/html/* ./
-rm -r docs build Makefile source README.md __pycache__/ dist/
+rm -r docs notebooks build Makefile source README.md __pycache__/ dist/
+
 echo "--------------------------------------------------------------------"
 echo " docs built; please review these changes and then run the following:"
 echo "--------------------------------------------------------------------"
