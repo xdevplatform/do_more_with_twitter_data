@@ -11,9 +11,6 @@ SOURCEDIR     = source
 BUILDDIR      = build
 
 
-SITETAG       =  "<!-- Global site tag (gtag.js) - Google Analytics --> <script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-30775-108\"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-30775-108'); </script>"
-
-
 NOTEBOOKSOURCES := $(shell find $(JUPYTERDIR) -name '*.ipynb')
 NOTEBOOK_BASENAMES := $(basename $(notdir $(NOTEBOOKSOURCES)))
 
@@ -31,13 +28,6 @@ jupyter:
 	done
 	mv $(JUPYTERDIR)/*.rst $(SOURCEDIR)
 	mv $(JUPYTERDIR)/*files $(SOURCEDIR)
-
-
-add-sitetag:
-	echo $(SITETAG)
-	for page in $(NOTEBOOK_BASENAMES); do \
-	  sed -i '<meta name="apple-mobile-web-app-capable" content="yes">/a \n '$$SITETAG'' build/html/$$page.html ;\
-	done
 
 
 
