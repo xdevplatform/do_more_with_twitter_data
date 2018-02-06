@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Enterprise setup &#8212; Learning More With Twitter Data 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Twitter Data Science</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://github.com/twitterdev/">Github</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Enterprise setup</a></li>
+<li><a class="reference internal" href="#premium-setup">Premium Setup</a></li>
+<li><a class="reference internal" href="#fast-way">Fast Way</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <p>Working with the API within a Python program is straightforward both for
+Premium and Enterprise clients.</p>
+<p>We&#8217;ll assume that credentials are in the default location,
+<code class="docutils literal"><span class="pre">~/.twitter_keys.yaml</span></code>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">ResultStream</span><span class="p">,</span> <span class="n">gen_rule_payload</span><span class="p">,</span> <span class="n">load_credentials</span>
+</pre></div>
+</div>
+<div class="section" id="enterprise-setup">
+<h1>Enterprise setup<a class="headerlink" href="#enterprise-setup" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">enterprise_search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="s2">&quot;~/.twitter_keys.yaml&quot;</span><span class="p">,</span>
+                                          <span class="n">yaml_key</span><span class="o">=</span><span class="s2">&quot;search_tweets_enterprise&quot;</span><span class="p">,</span>
+                                          <span class="n">env_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="premium-setup">
+<h1>Premium Setup<a class="headerlink" href="#premium-setup" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">premium_search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="s2">&quot;~/.twitter_keys.yaml&quot;</span><span class="p">,</span>
+                                       <span class="n">yaml_key</span><span class="o">=</span><span class="s2">&quot;search_tweets_premium_30day&quot;</span><span class="p">,</span>
+                                       <span class="n">env_overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is a function that formats search API rules into valid json
+queries called <code class="docutils literal"><span class="pre">gen_rule_payload</span></code>. It has sensible defaults, such as
+pulling more Tweets per call than the default 100 (but note that a
+sandbox environment can only have a max of 100 here, so if you get
+errors, please check this) not including dates, and defaulting to hourly
+counts when using the counts api. Discussing the finer points of
+generating search rules is out of scope for these examples; I encourage
+you to see the docs to learn the nuances within, but for now let&#8217;s see
+what a rule looks like.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="o">=</span> <span class="n">gen_rule_payload</span><span class="p">(</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span> <span class="n">results_per_call</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># testing with a sandbox account</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;beyonce&quot;</span><span class="p">,</span><span class="s2">&quot;maxResults&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This rule will match tweets that have the text <code class="docutils literal"><span class="pre">beyonce</span></code> in them.</p>
+<p>From this point, there are two ways to interact with the API. There is a
+quick method to collect smaller amounts of Tweets to memory that
+requires less thought and knowledge, and interaction with the
+<code class="docutils literal"><span class="pre">ResultStream</span></code> object which will be introduced later.</p>
+</div>
+<div class="section" id="fast-way">
+<h1>Fast Way<a class="headerlink" href="#fast-way" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ll use the <code class="docutils literal"><span class="pre">search_args</span></code> variable to power the configuration point
+for the API. The object also takes a valid PowerTrack rule and has
+options to cutoff search when hitting limits on both number of Tweets
+and API calls.</p>
+<p>We&#8217;ll be using the <code class="docutils literal"><span class="pre">collect_results</span></code> function, which has three
+parameters.</p>
+<ul class="simple">
+<li>rule: a valid PowerTrack rule, referenced earlier</li>
+<li>max_results: as the API handles pagination, it will stop collecting
+when we get to this number</li>
+<li>result_stream_args: configuration args that we&#8217;ve already
+specified.</li>
+</ul>
+<p>For the remaining examples, please change the args to either premium or
+enterprise depending on your usage.</p>
+<p>Let&#8217;s see how it goes:</p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+    
+      <!-- Global site tag (gtag.js) - Google Analytics --> <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30775-108"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-30775-108'); </script>
+      
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Twitter stuff.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+    
+
+
+  </body>
+</html>
