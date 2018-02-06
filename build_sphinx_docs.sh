@@ -29,7 +29,7 @@ make clean
 make jupyter
 make html
 mv -fv build/html/* ./
-rm -r docs notebooks build Makefile source README.md __pycache__/ dist/
+rm -r docs notebooks build Makefile source README.* __pycache__/ dist/
 
 echo "--------------------------------------------------------------------"
 echo " docs built; please review these changes and then run the following:"
