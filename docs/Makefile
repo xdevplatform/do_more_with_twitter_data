@@ -24,7 +24,7 @@ help:
 
 jupyter:
 	for notebook in $(NOTEBOOK_BASENAMES); do \
-	  $(JUPYTERBUILD) --to rst $(JUPYTERDIR)/$$notebook.ipynb --stdout | sed 's/ipython3/python/' | sed 's/.*parsed-literal.*/::/' > $(JUPYTERDIR)/$$notebook.rst ;\
+	  $(JUPYTERBUILD) --to rst $(JUPYTERDIR)/$$notebook.ipynb --stdout | sed 's/ipython3/python/' | sed 's/.*parsed-literal.*/::/' | sed 's/code:: \.yaml/code:: yaml/' > $(JUPYTERDIR)/$$notebook.rst ;\
 	done
 	mv $(JUPYTERDIR)/*.rst $(SOURCEDIR)
 	mv $(JUPYTERDIR)/*files $(SOURCEDIR)
