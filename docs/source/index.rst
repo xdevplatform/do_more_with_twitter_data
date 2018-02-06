@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to jupyter testing!
+WELCOME TO OUR LITTLE SITE!
 ===========================
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar tempor dui et rhoncus. Aliquam libero risus, suscipit a massa in, consequat egestas purus. Integer est odio, tristique auctor ante id, sodales ultrices justo. Nam varius suscipit quam, at sollicitudin nibh vestibulum non. Donec urna mauris, euismod eu sollicitudin non, consectetur a elit. Mauris eleifend vel felis vel ornare. Phasellus eleifend placerat massa eu posuere. Donec elementum maximus maximus. In eget libero sit amet dolor interdum dignissim id non neque. Quisque eleifend dictum lectus, vel lacinia ante pellentesque in. Quisque ut leo sodales dolor pharetra sagittis. Fusce elit lectus, rutrum ac blandit eu, maximus a lacus. Vestibulum eu mauris quis urna suscipit dignissim sit amet non ligula. Mauris cursus mi auctor leo semper, in ornare dolor facilisis. In pellentesque congue ante eu faucibus.

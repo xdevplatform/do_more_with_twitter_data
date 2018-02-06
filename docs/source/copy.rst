@@ -1,4 +1,3 @@
-.. _mycopy:
 
 A HEADING WORTHY OF THE RULERS
 ==============================
