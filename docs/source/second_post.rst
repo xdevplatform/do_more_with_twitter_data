@@ -1,5 +1,10 @@
 .. _second_post:
 
+
+.. include:: ./copy.rst
+
+---------------------------------
+
 BIG HEADING
 ===========
 
@@ -13,4 +18,4 @@ NOT BIG HEADING
 Phasellus ullamcorper justo eu enim tincidunt euismod. Proin vitae congue sem. Curabitur egestas elementum ex. Nunc blandit lorem est, eu dignissim lorem fringilla vitae. Praesent volutpat in ex eget rhoncus. Curabitur blandit sodales rutrum. Donec vitae accumsan nisi, ac consequat odio. Praesent in nibh mollis, dapibus est quis, elementum mauris. Sed tristique consectetur faucibus. Phasellus molestie eros non ornare tempus. Nunc condimentum purus quis vestibulum iaculis. Donec vitae fermentum nibh.
 
 
-
+.. include:: ./example_1.rst

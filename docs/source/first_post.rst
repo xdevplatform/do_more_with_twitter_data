@@ -1,26 +1,31 @@
 .. _first_post:
 
+
+.. include:: ./copy.rst
+
+---------------------------------
+
 SETTING UP SOME STUFF
 =====================
 
 setup
 ----------------
 
-.. code:: ipython3
+.. code:: python
 
     lorem = f(ipsum)
 
 Setup
 -------------
 
-.. code:: ipython3
+.. code:: python
 
     dolor = sit(amet)
 
 contribute
 ----------
 
-.. code:: ipython3
+.. code:: python
 
     donec = [sed(aliquam).mi for aliquam in suscipit]
 
