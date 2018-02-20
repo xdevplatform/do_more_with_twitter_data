@@ -28,10 +28,14 @@ jupyter:
 	  mv $(basename $(notebook)).rst $(basename $(notebook)).tmp ;\
 	  cat $(basename $(notebook)).tmp | sed 's/ipython3/python/' | sed 's/.*parsed-literal.*/::/' | sed 's/code:: \.yaml/code:: yaml/' > $(basename $(notebook)).rst ;\
 	  rm $(basename $(notebook)).tmp ;\
+	  echo ".. _$(notdir $(basename $(notebook))):" | cat - $(basename $(notebook)).rst > temp ;\
+	  mv temp $(basename $(notebook)).rst ;\
 	  mv -f $(basename $(notebook)).rst $(SOURCEDIR) ;\
 	  rm -r $(SOURCEDIR)/$(notdir $(basename $(notebook)))_files ;\
 	  mv -f $(basename $(notebook))_files $(SOURCEDIR) ;\
 	  )
+
+
 
 
 
