@@ -8,10 +8,10 @@ around a real-life project and provides MIT-licensed code that you can use to
 bootstrap your projects with our enterprise and premium APIs.
 
 
-:ref:`Finding the Right Data<first_post>`
+:ref:`Finding the Right Data<finding_the_right_data>`
 -----------------------------------------
 
-:ref:`In our first post<first_post>`, Fiona Pigott (@notFromShrek) will show you how to get the
+:ref:`In our first post<finding_the_right_data>`, Fiona Pigott (@notFromShrek) will show you how to get the
 Tweets most related to the question, "What do people talk about when they fly?"
 She will walk you through:
 
@@ -20,7 +20,7 @@ She will walk you through:
 - Working with Tweet payload elements (parsing Tweets, tokenization of text, etc.), and
 - Basic natural-language processing with Twitter data.
 
-:ref:`Please go here to see it!<first_post>`
+:ref:`Please go here to see it!<finding_the_right_data>`
 
 
 We will continue to add more posts to this page as we release them.
