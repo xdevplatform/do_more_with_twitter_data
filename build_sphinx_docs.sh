@@ -28,6 +28,7 @@ git checkout $BRANCH_NAME docs examples Makefile
 make clean
 make jupyter
 make html
+make bokeh
 mv -fv docs/build/html/* ./
 rm -r docs notebooks build Makefile source README.* __pycache__/ dist/
 
