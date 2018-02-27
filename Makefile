@@ -36,6 +36,10 @@ jupyter:
 	  )
 
 
+bokeh:
+	cp ./examples/clustering_users/hdbscan_bokeh.html ./docs/build/html/_static
+	cp ./examples/clustering_users/kmeans_bokeh.html ./docs/build/html/_static
+
 
 
 
