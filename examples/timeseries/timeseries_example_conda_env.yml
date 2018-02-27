@@ -1,0 +1,89 @@
+name: trends_example
+channels:
+- defaults
+dependencies:
+- ca-certificates=2017.08.26=ha1e5d58_0
+- certifi=2017.11.5=py36ha569be9_0
+- libcxx=4.0.1=h579ed51_0
+- libcxxabi=4.0.1=hebd6815_0
+- libedit=3.1=hb4e282d_0
+- libffi=3.2.1=h475c297_4
+- ncurses=6.0=hd04f020_2
+- openssl=1.0.2n=hdbc3d79_0
+- pip=9.0.1=py36h1555ced_4
+- python=3.6.3=h47c878a_7
+- readline=7.0=hc1231fa_4
+- setuptools=36.5.0=py36h2134326_0
+- sqlite=3.20.1=h7e4c145_2
+- tk=8.6.7=h35a86e2_3
+- wheel=0.30.0=py36h5eb2c71_1
+- xz=5.2.3=h0278029_2
+- zlib=1.2.11=hf3cbc9b_2
+- pip:
+  - appnope==0.1.0
+  - bleach==2.1.1
+  - bokeh==0.12.10
+  - cffi==1.11.2
+  - chardet==3.0.4
+  - cycler==0.10.0
+  - cython==0.27.2
+  - decorator==4.1.2
+  - docopt==0.6.2
+  - entrypoints==0.2.3
+  - html5lib==1.0b10
+  - idna==2.6
+  - ipykernel==4.6.1
+  - ipython==6.2.1
+  - ipython-genutils==0.2.0
+  - ipywidgets==7.0.3
+  - jedi==0.11.0
+  - jinja2==2.9.6
+  - jsonschema==2.6.0
+  - jupyter==1.0.0
+  - jupyter-client==5.1.0
+  - jupyter-console==5.2.0
+  - jupyter-core==4.4.0
+  - markupsafe==1.0
+  - matplotlib==2.1.0
+  - mistune==0.8
+  - multicoretsne==0.0.1.1
+  - nbconvert==5.3.1
+  - nbformat==4.4.0
+  - nltk==3.2.5
+  - notebook==5.2.0
+  - numpy==1.13.3
+  - pandas==0.22
+  - pandocfilters==1.4.2
+  - parso==0.1.0
+  - pexpect==4.2.1
+  - pickleshare==0.7.4
+  - pipreqs==0.4.9
+  - prompt-toolkit==1.0.15
+  - ptyprocess==0.5.2
+  - pycparser==2.18
+  - pygments==2.2.0
+  - pyparsing==2.2.0
+  - python-dateutil==2.6.1
+  - pytz==2017.3
+  - pyyaml==3.12
+  - pyzmq==16.0.3
+  - qtconsole==4.3.1
+  - requests==2.18.4
+  - scikit-learn==0.19.1
+  - scipy==1.0.0
+  - seaborn==0.8.1
+  - simplegeneric==0.8.1
+  - six==1.11.0
+  - sklearn==0.0
+  - stop-words==2015.2.23.1
+  - terminado==0.6
+  - testpath==0.3.1
+  - tornado==4.5.2
+  - traitlets==4.3.2
+  - tweet-parser==1.13.0
+  - searchtweets==1.0
+  - urllib3==1.22
+  - wcwidth==0.1.7
+  - webencodings==0.5.1
+  - widgetsnbextension==3.0.6
+  - yarg==0.1.9
