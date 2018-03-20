@@ -174,7 +174,7 @@ you&#8217;ll build.</p>
 <ul class="simple">
 <li>by Aaron Gonzales,
 &#64;<a class="reference external" href="https://twitter.com/binary_aaron">binary_aaron</a>, Data
-Scientist at Twitter, Jan 2018</li>
+Scientist at Twitter, Feb 2018</li>
 </ul>
 <div class="section" id="goals">
 <h2>#Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
@@ -264,7 +264,8 @@ Twitter data can be bucketed into any time frame, but is typically done
 in minutely, hourly, or daily counts.</p>
 <p>Our group has written about trend detection <a class="reference external" href="https://github.com/tw-ddis/Gnip-Trend-Detection/blob/master/paper/trends.pdf">in a
 whitepaper</a>
-to far greater depth if you&#8217;re interested in more in-depth reading.</p>
+to far greater depth if you&#8217;re interested in a more nuanced treatment of
+the subject.</p>
 <div class="section" id="events-and-outcomes">
 <h3>Events and outcomes<a class="headerlink" href="#events-and-outcomes" title="Permalink to this headline">¶</a></h3>
 <p>Twitter data has often been used as a tool for finding sudden changes in
@@ -322,6 +323,7 @@ save space in our notebook.</p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
+<span class="c1"># Our libraries</span>
 <span class="kn">from</span> <span class="nn">tweet_parser.tweet</span> <span class="k">import</span> <span class="n">Tweet</span>
 <span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">ResultStream</span><span class="p">,</span> <span class="n">gen_rule_payload</span>
 
@@ -388,7 +390,7 @@ handling</a>.</p>
 <code class="docutils literal"><span class="pre">search_args</span></code> variable for use throughout the session.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">load_credentials</span>
 
-<span class="n">search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="n">account_type</span><span class="o">=</span><span class="s2">&quot;enterprise&quot;</span><span class="p">)</span>
+<span class="n">search_args</span> <span class="o">=</span> <span class="n">load_credentials</span><span class="p">(</span><span class="n">account_type</span><span class="o">=</span><span class="s2">&quot;enterprise&quot;</span><span class="p">)</span> <span class="c1">#change to premium as necessary</span>
 </pre></div>
 </div>
 <p>For the entirety of this post, we&#8217;ll be using <code class="docutils literal"><span class="pre">hourly</span></code> count data from
@@ -415,7 +417,6 @@ API and returning a bag of Tweets or Tweet counts easily.</p>
 <span class="kn">from</span> <span class="nn">searchtweets</span> <span class="k">import</span> <span class="n">collect_results</span>
 
 <span class="n">from_date</span> <span class="o">=</span> <span class="s2">&quot;2017-01-01&quot;</span>
-<span class="n">end_date</span> <span class="o">=</span> <span class="s2">&quot;2017-11-20&quot;</span>
 <span class="n">end_date</span> <span class="o">=</span> <span class="s2">&quot;2017-12-31&quot;</span>
 
 <span class="n">count_payload_maker</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gen_rule_payload</span><span class="p">,</span>
@@ -423,8 +424,7 @@ API and returning a bag of Tweets or Tweet counts easily.</p>
                               <span class="n">to_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span>
                               <span class="n">count_bucket</span><span class="o">=</span><span class="s2">&quot;hour&quot;</span><span class="p">)</span>
 
-
-<span class="c1"># partial allows you to creat a new function from an existing one with filled arguments</span>
+<span class="c1"># partial allows you to create a new function from an existing one with filled arguments</span>
 <span class="n">tweet_rule_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gen_rule_payload</span><span class="p">,</span> <span class="n">from_date</span><span class="o">=</span><span class="n">from_date</span><span class="p">,</span> <span class="n">to_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
 <span class="n">count_collector</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">collect_results</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">365</span><span class="o">*</span><span class="mi">24</span><span class="p">,</span> <span class="n">result_stream_args</span><span class="o">=</span><span class="n">search_args</span><span class="p">)</span>
 <span class="n">tweet_sample_collector</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">collect_results</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">result_stream_args</span><span class="o">=</span><span class="n">search_args</span><span class="p">)</span>
@@ -443,15 +443,15 @@ it into a nice datetime-indexed pandas <code class="docutils literal"><span clas
 </pre></div>
 </div>
 <p>We&#8217;ll be using a single sample of Tweet counts throughout most of our
-session: English-language Tweets that mention <code class="docutils literal"><span class="pre">&quot;taylor</span> <span class="pre">swift&quot;</span></code>
+session: English-language Tweets that mention <code class="docutils literal"><span class="pre">&quot;taylor</span> <span class="pre">swift&quot;</span></code> her
 username, <code class="docutils literal"><span class="pre">&#64;taylorswift13</span></code>, or <code class="docutils literal"><span class="pre">&quot;tswift&quot;</span></code> that are not Retweets. Our
-results can be obtained quickly by composing the functions as so:</p>
+results can be obtained quickly:</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">_taylor_rule</span> <span class="o">=</span> <span class="s1">&#39;(@taylorswift13 OR &quot;taylor swift&quot; OR tswift) -is:retweet lang:en&#39;</span>
 <span class="c1"># this is the payload</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">count_payload_maker</span><span class="p">(</span><span class="n">_taylor_rule</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="s2">&quot;(@taylorswift13 OR </span><span class="se">\&quot;</span><span class="s2">taylor swift</span><span class="se">\&quot;</span><span class="s2"> OR tswift) -is:retweet lang:en&quot;</span><span class="p">,</span> <span class="s2">&quot;toDate&quot;</span><span class="p">:</span> <span class="s2">&quot;201712310000&quot;</span><span class="p">,</span> <span class="s2">&quot;fromDate&quot;</span><span class="p">:</span> <span class="s2">&quot;201701010000&quot;</span><span class="p">,</span> <span class="s2">&quot;bucket&quot;</span><span class="p">:</span> <span class="s2">&quot;hour&quot;</span><span class="p">}</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span><span class="s2">&quot;(@taylorswift13 OR </span><span class="se">\&quot;</span><span class="s2">taylor swift</span><span class="se">\&quot;</span><span class="s2"> OR tswift) -is:retweet lang:en&quot;</span><span class="p">,</span><span class="s2">&quot;toDate&quot;</span><span class="p">:</span><span class="s2">&quot;201712310000&quot;</span><span class="p">,</span><span class="s2">&quot;fromDate&quot;</span><span class="p">:</span><span class="s2">&quot;201701010000&quot;</span><span class="p">,</span><span class="s2">&quot;bucket&quot;</span><span class="p">:</span><span class="s2">&quot;hour&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">get_counts_from_rule</span><span class="p">(</span><span class="n">_taylor_rule</span><span class="p">)</span>
@@ -465,42 +465,27 @@ results can be obtained quickly by composing the functions as so:</p>
 </div>
 <p>It&#8217;s always a great idea to start with some description and
 visualization of your data, so let&#8217;s do that. There is a function,
-<code class="docutils literal"><span class="pre">plot_ts</span></code>, in the companion file <code class="docutils literal"><span class="pre">trends_utils.py</span></code> that serves as a
-flexible plotting function for our time series.</p>
+<code class="docutils literal"><span class="pre">plot_ts</span></code>, in the companion file <code class="docutils literal"><span class="pre">timeseries_utils.py</span></code> that serves
+as a flexible plotting function for our time series.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;total tweets counted: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hourly bin summary </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> --------- </span><span class="se">\n</span><span class="s2">daily bin summary&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 <span class="n">plot_ts</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;Hourly counts of &#39;</span><span class="si">{_taylor_rule}</span><span class="s2">&#39;&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="n">tweets</span> <span class="n">counted</span><span class="p">:</span> <span class="n">count</span>    <span class="mi">5277449</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="n">tweets</span> <span class="n">counted</span><span class="p">:</span> <span class="n">count</span>    <span class="mi">5262402</span>
 <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
 <span class="n">hourly</span> <span class="nb">bin</span> <span class="n">summary</span>
 
-              <span class="n">count</span>
-<span class="n">count</span>   <span class="mf">8736.000000</span>
-<span class="n">mean</span>     <span class="mf">604.103594</span>
-<span class="n">std</span>     <span class="mf">1099.635208</span>
-<span class="nb">min</span>      <span class="mf">112.000000</span>
-<span class="mi">25</span><span class="o">%</span>      <span class="mf">250.000000</span>
-<span class="mi">50</span><span class="o">%</span>      <span class="mf">349.000000</span>
-<span class="mi">75</span><span class="o">%</span>      <span class="mf">592.000000</span>
-<span class="nb">max</span>    <span class="mf">36764.000000</span>
-
- <span class="o">---------</span>
-<span class="n">daily</span> <span class="nb">bin</span> <span class="n">summary</span>
-               <span class="n">count</span>
-<span class="n">count</span>     <span class="mf">364.000000</span>
-<span class="n">mean</span>    <span class="mf">14498.486264</span>
-<span class="n">std</span>     <span class="mf">20003.985474</span>
-<span class="nb">min</span>      <span class="mf">4711.000000</span>
-<span class="mi">25</span><span class="o">%</span>      <span class="mf">6303.750000</span>
-<span class="mi">50</span><span class="o">%</span>      <span class="mf">9057.500000</span>
-<span class="mi">75</span><span class="o">%</span>     <span class="mf">14620.500000</span>
-<span class="nb">max</span>    <span class="mf">263355.000000</span>
+             <span class="n">count</span>
+<span class="n">mean</span>    <span class="mf">602.381181</span>
+<span class="n">std</span>    <span class="mf">1097.621700</span>
+<span class="nb">min</span>     <span class="mf">111.000000</span>
+<span class="mi">25</span><span class="o">%</span>     <span class="mf">249.000000</span>
+<span class="mi">50</span><span class="o">%</span>     <span class="mf">348.000000</span>
+<span class="mi">75</span><span class="o">%</span>     <span class="mf">589.000000</span>
+<span class="nb">max</span>   <span class="mf">36722.000000</span>
 </pre></div>
 </div>
 <img alt="_images/timeseries_17_1.png" src="_images/timeseries_17_1.png" />
@@ -540,9 +525,6 @@ With hourly data, you&#8217;ll see natural patterns in the data (in our rule,
 Tweet volumes will peak in the US daytime and drop in the US evening
 hours, due to more English-speaking users being in North America than
 elsewhere).</p>
-<p>Obviously, we can downsample the hourly data for convenience, and we&#8217;ll
-use a daily version of this data a few times during the example, so I&#8217;ll
-save it to its own variable here.</p>
 <p>Note that the time returned is UTC. For example, see the below plot of a
 few days - mind the noticeable dip in Tweets during North American
 nighttime.</p>
@@ -550,8 +532,9 @@ nighttime.</p>
 </pre></div>
 </div>
 <img alt="_images/timeseries_21_0.png" src="_images/timeseries_21_0.png" />
-<p>We can resample this to daily counts and see our longer-term trend info
-a bit more clearly, while losing some of the fidelity.</p>
+<p>We can resample our data to daily counts and see our longer-term trend
+info a bit more clearly, while losing some of the fidelity as well as
+the daily seasonality.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">daily_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">plot_ts</span><span class="p">(</span><span class="n">daily_df</span><span class="p">,</span>
         <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -604,8 +587,8 @@ operations, which is common in our line of work, and keeps our namespace
 clean, and is oft referred to as <a class="reference external" href="https://en.wikipedia.org/wiki/Method_chaining">method
 chaining</a>.
 <code class="docutils literal"><span class="pre">df.pipe(standardize)</span></code> is the same as <code class="docutils literal"><span class="pre">standardize(df)</span></code>, but as we
-add more complex processing chains, the <code class="docutils literal"><span class="pre">.pipe</span></code> function makes it very
-easy to follow what is happening. If you have worked with pipes in
+add more complex processing chains, the <code class="docutils literal"><span class="pre">.pipe</span></code> function makes it
+easier to follow what is happening. If you have worked with pipes in
 unix-based operating systems before, the concept is similar. For more
 info, you can see <a class="reference external" href="https://tomaugspurger.github.io/method-chaining">this wonderful Pandas tutorial
 series</a>.</p>
@@ -626,11 +609,11 @@ columns.</p>
 </pre></div>
 </div>
 <img alt="_images/timeseries_28_0.png" src="_images/timeseries_28_0.png" />
-<p>Clearly, there is a interesting pattern in our dataset. The standardized
-scores reflect our highly skewed set of Tweets, and we can also see a
-faint notion that the mean of the data is changing with time. This is
-very common in many real-life datasets, and will render many statistics
-quite meaningless or at least poor descriptors of the data.</p>
+<p>There is a interesting pattern in our dataset. The standardized scores
+reflect our highly skewed set of Tweets, and we can also see a faint
+notion that the mean of the data is changing with time. This is very
+common in many real-life datasets, and will render many statistics quite
+meaningless or at least poor descriptors of the data.</p>
 <p>We can say that a time-series that has a non-time-dependent mean is
 <em>stationary</em>, and one whose mean varies with time is <em>non-stationary</em>.
 Many methods will depend on making series stationary. Often
@@ -743,8 +726,8 @@ ago</a>.</p>
        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;ln-trans MAD-normalized units&quot;</span><span class="p">));</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">median</span> <span class="nb">abs</span> <span class="n">deviation</span> <span class="n">of</span> <span class="n">total</span> <span class="n">sample</span><span class="p">:</span> <span class="mf">188.2902</span>
-<span class="n">median</span> <span class="nb">abs</span> <span class="n">deviation</span> <span class="n">of</span> <span class="n">total</span> <span class="n">ln</span><span class="o">-</span><span class="n">trans</span> <span class="n">sample</span><span class="p">:</span> <span class="mf">0.5940453800462234</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">median</span> <span class="nb">abs</span> <span class="n">deviation</span> <span class="n">of</span> <span class="n">total</span> <span class="n">sample</span><span class="p">:</span> <span class="mf">186.80759999999998</span>
+<span class="n">median</span> <span class="nb">abs</span> <span class="n">deviation</span> <span class="n">of</span> <span class="n">total</span> <span class="n">ln</span><span class="o">-</span><span class="n">trans</span> <span class="n">sample</span><span class="p">:</span> <span class="mf">0.5947657852571288</span>
 </pre></div>
 </div>
 <img alt="_images/timeseries_36_1.png" src="_images/timeseries_36_1.png" />
@@ -769,12 +752,12 @@ series stationary.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>              <span class="n">count</span>
 <span class="n">count</span>   <span class="mf">8735.000000</span>
 <span class="n">mean</span>       <span class="mf">0.026216</span>
-<span class="n">std</span>      <span class="mf">701.529056</span>
-<span class="nb">min</span>   <span class="o">-</span><span class="mf">20731.000000</span>
+<span class="n">std</span>      <span class="mf">700.083421</span>
+<span class="nb">min</span>   <span class="o">-</span><span class="mf">20713.000000</span>
 <span class="mi">25</span><span class="o">%</span>      <span class="o">-</span><span class="mf">48.000000</span>
-<span class="mi">50</span><span class="o">%</span>       <span class="o">-</span><span class="mf">5.000000</span>
-<span class="mi">75</span><span class="o">%</span>       <span class="mf">40.000000</span>
-<span class="nb">max</span>    <span class="mf">28141.000000</span>
+<span class="mi">50</span><span class="o">%</span>       <span class="o">-</span><span class="mf">4.000000</span>
+<span class="mi">75</span><span class="o">%</span>       <span class="mf">39.000000</span>
+<span class="nb">max</span>    <span class="mf">28127.000000</span>
 </pre></div>
 </div>
 <img alt="_images/timeseries_38_1.png" src="_images/timeseries_38_1.png" />
@@ -782,11 +765,10 @@ series stationary.</p>
 <div class="section" id="percentage-changed">
 <h4>Percentage changed<a class="headerlink" href="#percentage-changed" title="Permalink to this headline">¶</a></h4>
 <p>We can also think about Tweet count deltas as a percentage change over
-some period. Here, we show both the % change from the previous hour and
-the % change over the previous two days.</p>
+some period. Here, we show both the % change from the previous hour.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">plot_ts</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pct_change</span><span class="p">(),</span>
         <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;%$\Delta$ of tweets over previous hour&quot;</span><span class="p">);</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;%$\Delta$ Tweets from previous hour&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <img alt="_images/timeseries_40_0.png" src="_images/timeseries_40_0.png" />
@@ -1119,7 +1101,7 @@ the companion file, <code class="docutils literal"><span class="pre">trends_util
                              <span class="n">max_results</span><span class="o">=</span><span class="n">TWEET_SAMPLE_SIZE</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">summarize_tweet_text</span><span class="p">(</span><span class="n">tweet_samp</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">summarize_tweet_text</span><span class="p">(</span><span class="n">tweet_samp</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span>-----------------start summary-----------------------------
@@ -1151,24 +1133,24 @@ TO
 END
 US
 ALL.
- favs:       2404
+ favs:       2398
 
 tweet text:
      .@mrBobbyBones knows too much... about @taylorswift13 and what&#39;s going to happen today.
 
 WE WANNA KNOW. https://t.co/aIG9etpm9u
- favs:       2134
+ favs:       2131
 
 tweet text:
      Tomorrow 4am expect something from @taylorswift13
 Our expert on all things #TaylorSwift said so!! https://t.co/vMBFD0DZ1E
- favs:       2093
+ favs:       2090
 
 tweet text:
      Me dancing to Taylor Swift&#39;s  unannounced, unreleased, not even anywhere remotely near confirmed new single
 
 #TS6IsComing https://t.co/IU8DhUeTr7
- favs:       2075
+ favs:       2072
 
 tweet text:
      .@SimonCowell was right when he said @GraceVanderWaal was the next @taylorswift13. #AGT https://t.co/Aq8KNRm3tX
@@ -1176,52 +1158,54 @@ tweet text:
 
 tweet text:
      Taylor Swift is BACK! Sources say she&#39;s releasing new music and thinks it&#39;s the best she&#39;s ever created. https://t.co/Qgjjmg3wDE
- favs:       1472
+ favs:       1471
 
 tweet text:
      @katyperry @NICKIMINAJ Sis, you still trying to compete with Taylor Swift with this knockoff video of Bad Blood? https://t.co/3UosW1ER19
- favs:       1189
+ favs:       1182
 
 tweet text:
      Today is day 4 of Taylor&#39;s blackout and the day of the #SolarEclipse. Will today be the day we hear news from @taylorswift13? #TS6IsComing https://t.co/kdaAvuOtAh
- favs:       1151
+ favs:       1150
 
 tweet text:
      “Dreaming dreams with happy endings.&quot; - Taylor Swift
- favs:       847
+ favs:       845
 
 tweet text:
      Remember: Don&#39;t look directly at the eclipse! Instead, keep your eyes on Twitter!! @taylorswift13 might break her silence. #SolarEclipse2017
- favs:       735
+ favs:       737
 
 tweet text:
      I hope everyone has fun during the eclipse tomorrow, I&#39;ll be on twitter waiting for Taylor Swift to release an album
- favs:       674
+ favs:       673
+
+tweet text:
+     Taylor Swift right now https://t.co/eKzXFRZwvC
+ favs:       650
 
 tweet text:
      Taylor Swift will be appearing on Katy&#39;s new video swish swish bish: a thread
- favs:       577
+ favs:       572
 
 tweet text:
      JUST THINKING THIS IS SO GOOD @TS6News @taylorswift13  @TSwiftTurkiye @1989TUpdates  @taylornation13  #TS6IsComing https://t.co/ncsc3GSYVS
- favs:       519
+ favs:       518
 
 tweet text:
      With Trump, the eclipse, AND then @taylorswift13 falling off the face of the social earth....I&#39;m starting to think we&#39;re in the apocalpse
- favs:       489
-
-tweet text:
-     Taylor Swift best be announcing a new album bc that is all I need to make life 10/10 right now
- favs:       481
+ favs:       488
 
     ----sample terms ----
-taylor swift, like &lt;-url-&gt;, can&#39;t believe, look like, believe taylor, believe taylor swift, can&#39;t believe taylor, taylor swift used, swift used, ducking celebs can&#39;t, swift used look, celebs can&#39;t, celebs can&#39;t believe, used look like, used look, ducking celebs, ugly ducking, look like &lt;-url-&gt;, ugly ducking celebs, &lt;-url-&gt; &lt;-url-&gt;, swift &lt;-url-&gt;, taylor swift &lt;-url-&gt;, social media, taylor swift&#39;s, new music, &lt;-url-&gt; via, new album, blank space, #ts6iscoming &lt;-url-&gt;, thank-you taylor swift, thank-you taylor, &lt;-url-&gt; taylor, &lt;-url-&gt; taylor swift, like taylor, like taylor swift, taylor swift groping, swift groping, katy perry, case &lt;-url-&gt;, groping case, jury rules, rules favor, jury rules favor, favor taylor swift, swift groping case, favor taylor, rules favor taylor, groping case &lt;-url-&gt;, swift #quote, taylor swift #quote
+taylor swift, like &lt;-url-&gt;, can&#39;t believe, look like, believe taylor, believe taylor swift, can&#39;t believe taylor, swift used, taylor swift used, used look like, ugly ducking, ugly ducking celebs, swift used look, look like &lt;-url-&gt;, used look, ducking celebs can&#39;t, ducking celebs, celebs can&#39;t believe, celebs can&#39;t, &lt;-url-&gt; &lt;-url-&gt;, swift &lt;-url-&gt;, taylor swift &lt;-url-&gt;, social media, taylor swift&#39;s, new music, &lt;-url-&gt; via, blank space, new album, thank-you taylor swift, thank-you taylor, #ts6iscoming &lt;-url-&gt;, &lt;-url-&gt; taylor, &lt;-url-&gt; taylor swift, like taylor, like taylor swift, taylor swift groping, swift groping, katy perry, case &lt;-url-&gt;, groping case, jury rules, rules favor, jury rules favor, favor taylor swift, favor taylor, rules favor taylor, swift groping case, groping case &lt;-url-&gt;, swift #quote, taylor swift #quote
 ----------------- end summary------------------------------
 </pre></div>
 </div>
 <p>Looks like this happened right when news dropped that Taylor Swift was
-going to announce an album. Further inspection will be left as an
-exercise for the curious reader.</p>
+going to announce an album, but there are also sample terms related to a
+verdict about a <a class="reference external" href="https://www.cnn.com/2017/08/14/entertainment/taylor-swift-verdict/index.html">lawsuit that she
+won</a>.
+Further inspection will be left as an exercise for the curious reader.</p>
 </div>
 </div>
 <div class="section" id="normalization">
@@ -1241,18 +1225,18 @@ the right thing. You could also use multiple normalizations, using the
 mean between them to get a more robust and less noisy normalization
 signal.</p>
 <p>For starters, we&#8217;ll pull count data for an aggregate of popular artists
-on Spotify. The rule is defined in the <code class="docutils literal"><span class="pre">trends_utils.py</span></code> file, and
+on Spotify. The rule is defined in the <code class="docutils literal"><span class="pre">timeseries_utils.py</span></code> file, and
 we&#8217;ll show it here.</p>
 <p>This comprises what one can assume is a halfway reasonable sample of
 popular musicians, though there are some problems that pop up
 immediately:</p>
 <ul class="simple">
 <li>genres are not always the same as Taylor Swift</li>
-<li>Some artists might be very popular in specific countries (think the
+<li>some artists might be very popular in specific countries (think the
 UK) that might have effects on the daily periodicity we see</li>
 <li>some of these artists might be new</li>
 <li>some of these artists will be extremely popular in spurts</li>
-<li>some of these artists will need refinement (e.g., &#8220;Future&#8221;)</li>
+<li>some of these artists will need rule refinement (e.g., &#8220;Future&#8221;)</li>
 </ul>
 <p>Fixing these issues will be left as an exercise for the reader.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">spotify_charts_rule</span><span class="p">)</span>
@@ -1335,17 +1319,17 @@ though not quite as huge as we might have seen with Taylor Swift&#8217;s data.</
        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;$log_2$ pop artists tweets per hour&quot;</span><span class="p">));</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">count</span>    <span class="mi">135653659</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">count</span>    <span class="mi">136243598</span>
 <span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
                <span class="n">count</span>
 <span class="n">count</span>    <span class="mf">8736.000000</span>
-<span class="n">mean</span>    <span class="mf">15528.120307</span>
-<span class="n">std</span>      <span class="mf">7827.388999</span>
-<span class="nb">min</span>      <span class="mf">6462.000000</span>
-<span class="mi">25</span><span class="o">%</span>     <span class="mf">11121.750000</span>
-<span class="mi">50</span><span class="o">%</span>     <span class="mf">14132.500000</span>
-<span class="mi">75</span><span class="o">%</span>     <span class="mf">17912.500000</span>
-<span class="nb">max</span>    <span class="mf">226454.000000</span>
+<span class="n">mean</span>    <span class="mf">15595.649954</span>
+<span class="n">std</span>      <span class="mf">7886.689883</span>
+<span class="nb">min</span>      <span class="mf">6444.000000</span>
+<span class="mi">25</span><span class="o">%</span>     <span class="mf">11109.500000</span>
+<span class="mi">50</span><span class="o">%</span>     <span class="mf">14149.000000</span>
+<span class="mi">75</span><span class="o">%</span>     <span class="mf">18046.500000</span>
+<span class="nb">max</span>    <span class="mf">226442.000000</span>
 </pre></div>
 </div>
 <img alt="_images/timeseries_64_1.png" src="_images/timeseries_64_1.png" />
@@ -1433,8 +1417,6 @@ scale.</p>
  <span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">spotify_df</span><span class="p">)</span>
  <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;normalized_data&quot;</span><span class="p">})</span>
  <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">raw</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">])</span>
- <span class="c1">#.rolling(24)</span>
- <span class="c1">#.mean()</span>
  <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
  <span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">detrender</span><span class="p">)</span>
  <span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
@@ -1569,7 +1551,7 @@ run one of our simple detectors.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;api calls used: </span><span class="si">{ResultStream.session_request_counter}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="n">calls</span> <span class="n">used</span><span class="p">:</span> <span class="mi">114</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="n">calls</span> <span class="n">used</span><span class="p">:</span> <span class="mi">92</span>
 </pre></div>
 </div>
 <p>Let&#8217;s plot each of them with our logged, detrended, MAD-normalized
@@ -1626,7 +1608,7 @@ machine learning.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;api calls used: </span><span class="si">{ResultStream.session_request_counter}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="n">calls</span> <span class="n">used</span><span class="p">:</span> <span class="mi">146</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="n">calls</span> <span class="n">used</span><span class="p">:</span> <span class="mi">124</span>
 </pre></div>
 </div>
 <p>And plot them like before, with our log-detrended-mad-normalized

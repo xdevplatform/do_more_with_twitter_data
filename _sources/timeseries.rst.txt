@@ -19,7 +19,7 @@ Evaluating time series and identifying trends
 
 -  by Aaron Gonzales,
    @\ `binary\_aaron <https://twitter.com/binary_aaron>`__, Data
-   Scientist at Twitter, Jan 2018
+   Scientist at Twitter, Feb 2018
 
 #Goals
 ------
@@ -115,7 +115,8 @@ in minutely, hourly, or daily counts.
 
 Our group has written about trend detection `in a
 whitepaper <https://github.com/tw-ddis/Gnip-Trend-Detection/blob/master/paper/trends.pdf>`__
-to far greater depth if you're interested in more in-depth reading.
+to far greater depth if you're interested in a more nuanced treatment of
+the subject.
 
 Events and outcomes
 ~~~~~~~~~~~~~~~~~~~
@@ -181,6 +182,7 @@ save space in our notebook.
     import matplotlib.pyplot as plt
     import seaborn as sns
     
+    # Our libraries
     from tweet_parser.tweet import Tweet
     from searchtweets import ResultStream, gen_rule_payload
     
@@ -258,7 +260,7 @@ The ``load_credentials`` function parses this file and we'll save the
 
     from searchtweets import load_credentials
     
-    search_args = load_credentials(account_type="enterprise")
+    search_args = load_credentials(account_type="enterprise") #change to premium as necessary
 
 For the entirety of this post, we'll be using ``hourly`` count data from
 the Search API's counts endpoint , and set some arguments to make it
@@ -289,7 +291,6 @@ API and returning a bag of Tweets or Tweet counts easily.
     from searchtweets import collect_results
     
     from_date = "2017-01-01"
-    end_date = "2017-11-20"
     end_date = "2017-12-31"
     
     count_payload_maker = partial(gen_rule_payload,
@@ -297,8 +298,7 @@ API and returning a bag of Tweets or Tweet counts easily.
                                   to_date=end_date,
                                   count_bucket="hour")
     
-    
-    # partial allows you to creat a new function from an existing one with filled arguments
+    # partial allows you to create a new function from an existing one with filled arguments
     tweet_rule_func = partial(gen_rule_payload, from_date=from_date, to_date=end_date)
     count_collector = partial(collect_results, max_results=365*24, result_stream_args=search_args)
     tweet_sample_collector = partial(collect_results, max_results=500, result_stream_args=search_args)
@@ -318,9 +318,9 @@ it into a nice datetime-indexed pandas ``Dataframe``.
         return df_from_counts(count_collector(count_payload_maker(rule)))
 
 We'll be using a single sample of Tweet counts throughout most of our
-session: English-language Tweets that mention ``"taylor swift"``
+session: English-language Tweets that mention ``"taylor swift"`` her
 username, ``@taylorswift13``, or ``"tswift"`` that are not Retweets. Our
-results can be obtained quickly by composing the functions as so:
+results can be obtained quickly:
 
 .. code:: python
 
@@ -331,7 +331,7 @@ results can be obtained quickly by composing the functions as so:
 
 ::
 
-    {"query": "(@taylorswift13 OR \"taylor swift\" OR tswift) -is:retweet lang:en", "toDate": "201712310000", "fromDate": "201701010000", "bucket": "hour"}
+    {"query":"(@taylorswift13 OR \"taylor swift\" OR tswift) -is:retweet lang:en","toDate":"201712310000","fromDate":"201701010000","bucket":"hour"}
 
 
 .. code:: python
@@ -350,47 +350,32 @@ results can be obtained quickly by composing the functions as so:
 
 It's always a great idea to start with some description and
 visualization of your data, so let's do that. There is a function,
-``plot_ts``, in the companion file ``trends_utils.py`` that serves as a
-flexible plotting function for our time series.
+``plot_ts``, in the companion file ``timeseries_utils.py`` that serves
+as a flexible plotting function for our time series.
 
 .. code:: python
 
     print("total tweets counted: {}".format(df.sum()))
     print("hourly bin summary \n")
-    print(df.describe())
+    print(df.describe().drop("count", axis=0))
     
-    print("\n --------- \ndaily bin summary")
-    print(df.resample("D").sum().describe())
     plot_ts(df, raw=True, title=f"Hourly counts of '{_taylor_rule}'");
 
 
 ::
 
-    total tweets counted: count    5277449
+    total tweets counted: count    5262402
     dtype: int64
     hourly bin summary 
     
-                  count
-    count   8736.000000
-    mean     604.103594
-    std     1099.635208
-    min      112.000000
-    25%      250.000000
-    50%      349.000000
-    75%      592.000000
-    max    36764.000000
-    
-     --------- 
-    daily bin summary
-                   count
-    count     364.000000
-    mean    14498.486264
-    std     20003.985474
-    min      4711.000000
-    25%      6303.750000
-    50%      9057.500000
-    75%     14620.500000
-    max    263355.000000
+                 count
+    mean    602.381181
+    std    1097.621700
+    min     111.000000
+    25%     249.000000
+    50%     348.000000
+    75%     589.000000
+    max   36722.000000
 
 
 
@@ -451,10 +436,6 @@ Tweet volumes will peak in the US daytime and drop in the US evening
 hours, due to more English-speaking users being in North America than
 elsewhere).
 
-Obviously, we can downsample the hourly data for convenience, and we'll
-use a daily version of this data a few times during the example, so I'll
-save it to its own variable here.
-
 Note that the time returned is UTC. For example, see the below plot of a
 few days - mind the noticeable dip in Tweets during North American
 nighttime.
@@ -468,8 +449,9 @@ nighttime.
 .. image:: timeseries_files/timeseries_21_0.png
 
 
-We can resample this to daily counts and see our longer-term trend info
-a bit more clearly, while losing some of the fidelity.
+We can resample our data to daily counts and see our longer-term trend
+info a bit more clearly, while losing some of the fidelity as well as
+the daily seasonality.
 
 .. code:: python
 
@@ -538,8 +520,8 @@ operations, which is common in our line of work, and keeps our namespace
 clean, and is oft referred to as `method
 chaining <https://en.wikipedia.org/wiki/Method_chaining>`__.
 ``df.pipe(standardize)`` is the same as ``standardize(df)``, but as we
-add more complex processing chains, the ``.pipe`` function makes it very
-easy to follow what is happening. If you have worked with pipes in
+add more complex processing chains, the ``.pipe`` function makes it
+easier to follow what is happening. If you have worked with pipes in
 unix-based operating systems before, the concept is similar. For more
 info, you can see `this wonderful Pandas tutorial
 series <https://tomaugspurger.github.io/method-chaining>`__.
@@ -568,11 +550,11 @@ columns.
 .. image:: timeseries_files/timeseries_28_0.png
 
 
-Clearly, there is a interesting pattern in our dataset. The standardized
-scores reflect our highly skewed set of Tweets, and we can also see a
-faint notion that the mean of the data is changing with time. This is
-very common in many real-life datasets, and will render many statistics
-quite meaningless or at least poor descriptors of the data.
+There is a interesting pattern in our dataset. The standardized scores
+reflect our highly skewed set of Tweets, and we can also see a faint
+notion that the mean of the data is changing with time. This is very
+common in many real-life datasets, and will render many statistics quite
+meaningless or at least poor descriptors of the data.
 
 We can say that a time-series that has a non-time-dependent mean is
 *stationary*, and one whose mean varies with time is *non-stationary*.
@@ -710,8 +692,8 @@ Enough chat, let's see some plots.
 
 ::
 
-    median abs deviation of total sample: 188.2902
-    median abs deviation of total ln-trans sample: 0.5940453800462234
+    median abs deviation of total sample: 186.80759999999998
+    median abs deviation of total ln-trans sample: 0.5947657852571288
 
 
 
@@ -745,12 +727,12 @@ series stationary.
                   count
     count   8735.000000
     mean       0.026216
-    std      701.529056
-    min   -20731.000000
+    std      700.083421
+    min   -20713.000000
     25%      -48.000000
-    50%       -5.000000
-    75%       40.000000
-    max    28141.000000
+    50%       -4.000000
+    75%       39.000000
+    max    28127.000000
 
 
 
@@ -761,14 +743,13 @@ Percentage changed
 ^^^^^^^^^^^^^^^^^^
 
 We can also think about Tweet count deltas as a percentage change over
-some period. Here, we show both the % change from the previous hour and
-the % change over the previous two days.
+some period. Here, we show both the % change from the previous hour.
 
 .. code:: python
 
     plot_ts(df.pct_change(),
             raw=True,
-            title="%$\Delta$ of tweets over previous hour");
+            title="%$\Delta$ Tweets from previous hour");
 
 
 
@@ -959,7 +940,6 @@ The below function is a simple method to do this, and will default to a
         func = np.mean if method is None else method
         
         return df - df.rolling(periods).apply(func)
-        
 
 .. code:: python
 
@@ -1164,7 +1144,7 @@ the companion file, ``trends_utils.py``.
 
 .. code:: python
 
-    summarize_tweet_text(tweet_samp, samples=15, )
+    summarize_tweet_text(tweet_samp, samples=15)
 
 
 ::
@@ -1198,24 +1178,24 @@ the companion file, ``trends_utils.py``.
     END
     US
     ALL. 
-     favs: 	 2404
+     favs: 	 2398
     
     tweet text:
      	 .@mrBobbyBones knows too much... about @taylorswift13 and what's going to happen today.
     
     WE WANNA KNOW. https://t.co/aIG9etpm9u 
-     favs: 	 2134
+     favs: 	 2131
     
     tweet text:
      	 Tomorrow 4am expect something from @taylorswift13 
     Our expert on all things #TaylorSwift said so!! https://t.co/vMBFD0DZ1E 
-     favs: 	 2093
+     favs: 	 2090
     
     tweet text:
      	 Me dancing to Taylor Swift's  unannounced, unreleased, not even anywhere remotely near confirmed new single  
     
     #TS6IsComing https://t.co/IU8DhUeTr7 
-     favs: 	 2075
+     favs: 	 2072
     
     tweet text:
      	 .@SimonCowell was right when he said @GraceVanderWaal was the next @taylorswift13. #AGT https://t.co/Aq8KNRm3tX 
@@ -1223,52 +1203,54 @@ the companion file, ``trends_utils.py``.
     
     tweet text:
      	 Taylor Swift is BACK! Sources say she's releasing new music and thinks it's the best she's ever created. https://t.co/Qgjjmg3wDE 
-     favs: 	 1472
+     favs: 	 1471
     
     tweet text:
      	 @katyperry @NICKIMINAJ Sis, you still trying to compete with Taylor Swift with this knockoff video of Bad Blood? https://t.co/3UosW1ER19 
-     favs: 	 1189
+     favs: 	 1182
     
     tweet text:
      	 Today is day 4 of Taylor's blackout and the day of the #SolarEclipse. Will today be the day we hear news from @taylorswift13? #TS6IsComing https://t.co/kdaAvuOtAh 
-     favs: 	 1151
+     favs: 	 1150
     
     tweet text:
      	 “Dreaming dreams with happy endings." - Taylor Swift 
-     favs: 	 847
+     favs: 	 845
     
     tweet text:
      	 Remember: Don't look directly at the eclipse! Instead, keep your eyes on Twitter!! @taylorswift13 might break her silence. #SolarEclipse2017 
-     favs: 	 735
+     favs: 	 737
     
     tweet text:
      	 I hope everyone has fun during the eclipse tomorrow, I'll be on twitter waiting for Taylor Swift to release an album 
-     favs: 	 674
+     favs: 	 673
+    
+    tweet text:
+     	 Taylor Swift right now https://t.co/eKzXFRZwvC 
+     favs: 	 650
     
     tweet text:
      	 Taylor Swift will be appearing on Katy's new video swish swish bish: a thread 
-     favs: 	 577
+     favs: 	 572
     
     tweet text:
      	 JUST THINKING THIS IS SO GOOD @TS6News @taylorswift13  @TSwiftTurkiye @1989TUpdates  @taylornation13  #TS6IsComing https://t.co/ncsc3GSYVS 
-     favs: 	 519
+     favs: 	 518
     
     tweet text:
      	 With Trump, the eclipse, AND then @taylorswift13 falling off the face of the social earth....I'm starting to think we're in the apocalpse 
-     favs: 	 489
-    
-    tweet text:
-     	 Taylor Swift best be announcing a new album bc that is all I need to make life 10/10 right now 
-     favs: 	 481
+     favs: 	 488
     
     	----sample terms ----
-    taylor swift, like <-url->, can't believe, look like, believe taylor, believe taylor swift, can't believe taylor, taylor swift used, swift used, ducking celebs can't, swift used look, celebs can't, celebs can't believe, used look like, used look, ducking celebs, ugly ducking, look like <-url->, ugly ducking celebs, <-url-> <-url->, swift <-url->, taylor swift <-url->, social media, taylor swift's, new music, <-url-> via, new album, blank space, #ts6iscoming <-url->, thank-you taylor swift, thank-you taylor, <-url-> taylor, <-url-> taylor swift, like taylor, like taylor swift, taylor swift groping, swift groping, katy perry, case <-url->, groping case, jury rules, rules favor, jury rules favor, favor taylor swift, swift groping case, favor taylor, rules favor taylor, groping case <-url->, swift #quote, taylor swift #quote
+    taylor swift, like <-url->, can't believe, look like, believe taylor, believe taylor swift, can't believe taylor, swift used, taylor swift used, used look like, ugly ducking, ugly ducking celebs, swift used look, look like <-url->, used look, ducking celebs can't, ducking celebs, celebs can't believe, celebs can't, <-url-> <-url->, swift <-url->, taylor swift <-url->, social media, taylor swift's, new music, <-url-> via, blank space, new album, thank-you taylor swift, thank-you taylor, #ts6iscoming <-url->, <-url-> taylor, <-url-> taylor swift, like taylor, like taylor swift, taylor swift groping, swift groping, katy perry, case <-url->, groping case, jury rules, rules favor, jury rules favor, favor taylor swift, favor taylor, rules favor taylor, swift groping case, groping case <-url->, swift #quote, taylor swift #quote
     ----------------- end summary------------------------------
 
 
 Looks like this happened right when news dropped that Taylor Swift was
-going to announce an album. Further inspection will be left as an
-exercise for the curious reader.
+going to announce an album, but there are also sample terms related to a
+verdict about a `lawsuit that she
+won <https://www.cnn.com/2017/08/14/entertainment/taylor-swift-verdict/index.html>`__.
+Further inspection will be left as an exercise for the curious reader.
 
 Normalization
 -------------
@@ -1292,7 +1274,7 @@ mean between them to get a more robust and less noisy normalization
 signal.
 
 For starters, we'll pull count data for an aggregate of popular artists
-on Spotify. The rule is defined in the ``trends_utils.py`` file, and
+on Spotify. The rule is defined in the ``timeseries_utils.py`` file, and
 we'll show it here.
 
 This comprises what one can assume is a halfway reasonable sample of
@@ -1300,11 +1282,11 @@ popular musicians, though there are some problems that pop up
 immediately:
 
 -  genres are not always the same as Taylor Swift
--  Some artists might be very popular in specific countries (think the
+-  some artists might be very popular in specific countries (think the
    UK) that might have effects on the daily periodicity we see
 -  some of these artists might be new
 -  some of these artists will be extremely popular in spurts
--  some of these artists will need refinement (e.g., "Future")
+-  some of these artists will need rule refinement (e.g., "Future")
 
 Fixing these issues will be left as an exercise for the reader.
 
@@ -1400,17 +1382,17 @@ though not quite as huge as we might have seen with Taylor Swift's data.
 
 ::
 
-    count    135653659
+    count    136243598
     dtype: int64
                    count
     count    8736.000000
-    mean    15528.120307
-    std      7827.388999
-    min      6462.000000
-    25%     11121.750000
-    50%     14132.500000
-    75%     17912.500000
-    max    226454.000000
+    mean    15595.649954
+    std      7886.689883
+    min      6444.000000
+    25%     11109.500000
+    50%     14149.000000
+    75%     18046.500000
+    max    226442.000000
 
 
 
@@ -1518,8 +1500,6 @@ scale.
      .div(spotify_df)
      .rename(columns={"count": "normalized_data"})
      .assign(raw=df["count"])
-     #.rolling(24)
-     #.mean()
      .pipe(np.log)
      .pipe(detrender)
      .dropna()
@@ -1686,7 +1666,7 @@ Before you run this, know that it will use a large number of API calls.
 
 ::
 
-    api calls used: 114
+    api calls used: 92
 
 
 Let's plot each of them with our logged, detrended, MAD-normalized
@@ -1761,7 +1741,7 @@ And collect them:
 
 ::
 
-    api calls used: 146
+    api calls used: 124
 
 
 And plot them like before, with our log-detrended-mad-normalized
