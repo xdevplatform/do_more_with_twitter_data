@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Learning More With Twitter Data documentation build configuration file, created by
+# Do More With Twitter Data documentation build configuration file, created by
 # sphinx-quickstart on Wed Jan 31 15:51:40 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -54,9 +54,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Learning More With Twitter Data'
-copyright = '2018, Twitter stuff'
-author = 'Twitter tweeps'
+project = 'Do more with Twitter data'
+copyright = '2018, Twitter'
+author = 'Twitter Data data scientists'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -111,7 +111,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'LearningMoreWithTwitterDatadoc'
+htmlhelp_basename = 'DoMoreWithTwitterDatadoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -138,7 +138,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'LearningMoreWithTwitterData.tex', 'Learning More With Twitter Data Documentation',
+    (master_doc, 'DoMoreWithTwitterData.tex', 'Do more with Twitter data documentation',
      'Twitter DES Data Scientists', 'manual'),
 ]
 
@@ -148,7 +148,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'learningmorewithtwitterdata', 'Learning More With Twitter Data Documentation',
+    (master_doc, 'Domorewithtwitterdata', 'Do more with Twitter data documentation',
      [author], 1)
 ]
 
@@ -159,8 +159,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'LearningMoreWithTwitterData', 'Learning More With Twitter Data Documentation',
-     author, 'LearningMoreWithTwitterData', 'One line description of project.',
+    (master_doc, 'DoMoreWithTwitterData', 'Do more with Twitter data documentation',
+     author, 'DoMoreWithTwitterData', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -168,11 +168,11 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+# intersphinx_mapping = {'https://docs.python.org/': None}
 
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    'navbar_title': "Twitter Data Science",
+    'navbar_title': "Do more with Twitter data",
 
     # Tab name for entire site. (Default: "Site")
     'navbar_site_name': "Site",
@@ -185,7 +185,8 @@ html_theme_options = {
     # Note the "1" or "True" value above as the third argument to indicate
     # an arbitrary url.
     'navbar_links': [
-        ("Github", "https://github.com/twitterdev/", True),
+        ("Github",
+            "https://github.com/twitterdev/do_more_with_twitter_data", True),
     ],
 
     # Render the next and previous page links in navbar. (Default: true)

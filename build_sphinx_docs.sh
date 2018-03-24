@@ -22,13 +22,13 @@ rm -rf ./*.egg-info
 git pull origin gh-pages
 rm -r ./*.html ./*.js ./_modules ./_sources ./_static *.inv
 touch .nojekyll
-git checkout $BRANCH_NAME docs
+git checkout $BRANCH_NAME docs examples Makefile
 # need to do this step because the readme will be overwritten
-mv docs/* .
+# mv docs/* .
 make clean
 make jupyter
 make html
-mv -fv build/html/* ./
+mv -fv docs/build/html/* ./
 rm -r docs notebooks build Makefile source README.* __pycache__/ dist/
 
 echo "--------------------------------------------------------------------"
