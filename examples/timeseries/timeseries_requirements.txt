@@ -1,7 +1,7 @@
 # python3.6
 bleach==2.1.1
 bokeh==0.12.10
-certifi==2017.7.27.1
+certifi==2022.12.7
 chardet==3.0.4
 cycler==0.10.0
 Cython==0.27.2
